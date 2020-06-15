@@ -23,6 +23,10 @@ app.get('/hello', (request, response) => {
     response.render('pages/index.ejs');
 })
 
+app.get('/searches/new', (request, response) => {
+    response.render('pages/searches/new.ejs');
+})
+
 // app.get('*',(request, response) => {
 //     response.status(404).send('Sorry, that did not work');
 // })
