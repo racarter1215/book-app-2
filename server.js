@@ -66,9 +66,9 @@ function errorHandler(error, request, response) {
     response.status(500).send({status: 500, responseText: 'That did not go as expected'});
   }
 
-// app.get('*',(request, response) => {
-//     response.status(404).send('Sorry, that did not work');
-// })
+app.get('*',(request, response) => {
+    response.status(404).send('Sorry, that did not work');
+})
 
 // dbClient.connect()
 //     .then(() => {

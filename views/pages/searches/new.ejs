@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/reset.css">
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/layout.css">
-    <link rel="stylesheet" href="styles/modules.css">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/modules.css">
     
     <title>Your Collection of Books</title>
 </head>
@@ -15,20 +15,20 @@
         <main>
             <h4>Search Books by Title or Author</h4>
             <form action="/searches" method="post">
-            <input ="search" placeholder="Please enter a Title or Author" required>
+            <input type="text" name="search" placeholder="Please enter a Title or Author" required>
             <fieldset>
                 <label for="title">
                     <span>Title</span>
-                    <input e="search" value="title" required>
+                    <input type="radio" name="search" value="title" required>
                 </label>
             </fieldset>
             <fieldset>
                 <label for="author">
                     <span>Author</span>
-                    <input e="search" value="author" required>
+                    <input type="radio" name="search" value="author" required>
                 </label>
             </fieldset>
-            <button arch Powered By Google</button>
+            <button type="submit">Search Powered By Google</button>
         </form>
         </main>
     </body>
