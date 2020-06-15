@@ -57,7 +57,7 @@ app.post('/searches', (request, response) => {
 
 function Book(obj) {
     this.title = obj.title || 'Title not available'
-    this.author = obj.author || 'Author not available'
+    this.authors = obj.authors || 'Author not available'
     this.image_url = obj.image_url || 'https://i.imgur.com/J5LVHEL.jpg'
     this.description = obj.description || 'Description not available'
 }
