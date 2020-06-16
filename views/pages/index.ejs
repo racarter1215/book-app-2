@@ -12,8 +12,18 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        Hello World!
+    <div class="book-section">
+        <% homeArray.forEach( book => { %>
+            <img src=<%= book.image_url %> 
+            alt= <%= book.title %> 
+            />
+            <h2><%= book.title %></h2>
+            <h3><%= book.author %></h3>
+            <p><%= book.description %></p>
+            <p><%= book.isbn %></p>
+        <% }) %>
+            
+            <p>You have this many books in the Database: <%= homeArray.length %></p>
     </div>
 </body>
 </html>
