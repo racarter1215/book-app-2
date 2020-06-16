@@ -13,11 +13,15 @@
 </head>
 <body>
     <main>
+        <section class="book-section">
         <% searchResults.forEach( book => { %>
+            <img src=<%= book.image_url %> 
+            alt= <%= book.title %> 
+            />
             <h2><%= book.title %></h2>
             <h3><%= book.authors %></h3>
             <p><%= book.description %></p>
-            <p><%= book.image_url %></p>
         <% }) %>
+        </section>
 </body>
 </html>
