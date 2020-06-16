@@ -1,0 +1,30 @@
+h4 {
+    font-size: 1.5em;
+    margin: 20px 0 20px 0;
+    background-color:  rgb(213, 210, 210);
+    padding: 20px;
+  }
+  form {
+    background-color: rgb(213, 210, 210);
+    padding: 10px;
+    flex-flow: column nowrap;
+    display: flex;
+    justify-content: center;
+  }
+  form section {
+    text-align: left;
+    padding-left: 35%;
+  }
+  fieldset {
+    border: black solid 1px;
+    width: 200px;
+    padding: 10px;
+  }
+  fieldset:last-of-type {
+    margin-top: 10px;
+  }
+  .form-box{
+    width: 200px;
+    height: 40px;
+    margin: 5px 0 5px 0;
+  }

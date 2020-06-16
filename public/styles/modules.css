@@ -1,0 +1,21 @@
+.book-section h2 {
+    margin-bottom: 5px;
+    font-size: 1.5em;
+    
+  }
+  .book-section{
+    margin-bottom: 20px;
+    width: 768px;
+    background-color: rgb(213, 210, 210);
+    text-align: center;
+  }
+  .book-section p {
+    width: 768px;
+    padding: 20px 100px 20px 100px;
+  }
+  /* .book-section  */
+  .book-section img {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border: 2px white solid;
+  }

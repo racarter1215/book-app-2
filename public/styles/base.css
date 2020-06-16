@@ -1,3 +1,9 @@
-/* body {
-    background-color: green;
-} */
+*{
+    box-sizing: border-box;
+  }
+  body {
+    width: 768px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: grey;
+  }
