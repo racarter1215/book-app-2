@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>Document</title>
-</head>
-<body>
-    <%- include ('detail.ejs') %>
-    <form action="/detail" method="GET">
-        <button class="submitButton" type="submit" >Go to Details Page</button>
-    </form>
-    <form action="/" method="GET">
-        <button class="submitButton" type="submit" >Go to Main Page</button>
-    </form>
-</body>
+<%- include ('../../layout/head.ejs') %>
+    <body>
+        <%- include ('detail.ejs') %>
+        <a href="/">Go back to Main Page</a>
+    </body>
 </html>

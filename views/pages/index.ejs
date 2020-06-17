@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/reset.css">
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/layout.css">
-    <link rel="stylesheet" href="styles/modules.css">
-    
-    <title>Document</title>
-</head>
+    <%- include ('../layout/head.ejs') %>
 <body>
     <div class="book-section">
-            <%- include ('./books/detail.ejs') %>
+        <section class="single-book">
+            <% homeArray.forEach( book => { %>
+                <form action="/books" method="POST">
+                    <input type=hidden name="image_url" value="<%=book.image_url%>" />
+                    <img src=<%= book.image_url %> 
+                    alt= <%= book.title %> 
+                    />
+                    <input type=hidden name="title" value="<%=book.title%>" />
+                    <h2><%= book.title %></h2>
+                    <input type=hidden name="authors" value="<%=book.authors%>" />
+                    <h3><%= book.authors %></h3>
+                    <input type=hidden name="description" value="<%=book.description%>" />
+                    <p><%= book.description %></p>
+                    <input type=hidden name="isbn" value="<%=book.isbn%>" />
+                    <p><% book.isbn %></p>
+                    <input type=hidden name="bookshelf" value="<%=book.bookshelf%>" />
+                    <p><% book.bookshelf %></p>
+                    <button class="submitButton" type="submit">Show Details</button>
+                </form>
+            <% }) %>
+        </section>
             <p>You have this many books in the Database: <%= homeArray.length %></p>
+            <a href="/books/:id">Go to Details</a>
     </div>
 </body>
 </html>
