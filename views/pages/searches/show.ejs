@@ -15,12 +15,23 @@
     <main>
         <section class="book-section">
         <% searchResults.forEach( book => { %>
-            <img src=<%= book.image_url %> 
-            alt= <%= book.title %> 
-            />
-            <h2><%= book.title %></h2>
-            <h3><%= book.authors %></h3>
-            <p><%= book.description %></p>
+            <form action="/books" method="POST">
+                <input type=hidden name="image_url" value="<%=book.image_url%>" />
+                <img src=<%= book.image_url %> 
+                alt= <%= book.title %> 
+                />
+                <input type=hidden name="title" value="<%=book.title%>" />
+                <h2><%= book.title %></h2>
+                <input type=hidden name="authors" value="<%=book.authors%>" />
+                <h3><%= book.authors %></h3>
+                <input type=hidden name="description" value="<%=book.description%>" />
+                <p><%= book.description %></p>
+                <input type=hidden name="isbn" value="<%=book.isbn%>" />
+                <p><% book.isbn %></p>
+                <input type=hidden name="bookshelf" value="<%=book.bookshelf%>" />
+                <p><% book.bookshelf %></p>
+                <button class="submitButton" type="submit">Add to Collection</button>
+            </form>
         <% }) %>
         </section>
 </body>
