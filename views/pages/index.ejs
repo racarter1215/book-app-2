@@ -17,15 +17,14 @@
                     <input type=hidden name="description" value="<%=book.description%>" />
                     <p><%= book.description %></p>
                     <input type=hidden name="isbn" value="<%=book.isbn%>" />
-                    <p><% book.isbn %></p>
+                    <p><%= book.isbn %></p>
                     <input type=hidden name="bookshelf" value="<%=book.bookshelf%>" />
-                    <p><% book.bookshelf %></p>
+                    <p><%= book.bookshelf %></p>
                     <button class="submitButton" type="submit">Show Details</button>
                 </form>
             <% }) %>
         </section>
             <p>You have this many books in the Database: <%= homeArray.length %></p>
-            <a href="/books/:id">Go to Details</a>
     </div>
 </body>
 </html>
