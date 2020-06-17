@@ -19,3 +19,6 @@
     margin-bottom: 10px;
     border: 2px white solid;
   }
+  .book-section button:last-of-type {
+    margin-bottom: 40px;
+  }
