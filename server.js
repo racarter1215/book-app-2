@@ -5,6 +5,7 @@ require('ejs');
 require('dotenv').config();
 const superagent = require('superagent');
 const pg = require('pg');
+const methodOverride = require('method-override');
 const dbClient = new pg.Client(process.env.DATABASE_URL);
 const app = express();
 
@@ -13,13 +14,20 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
 
-
-app.get('/', renderIndex);
-app.get('/books/:id', bookRequest);
+app.get('/', renderHomePage);
+app.get('/searches/new', searchForm);
+app.post('/searches', getBooksFromAPI);
 app.post('/books', addToDatabase);
+app.get('/books/:id', bookRequest);
+app.put('/update/:books_id', updateBooks);
+// app.delete(, deleteBook);
+app.get('*', (request, response) => {
+    response.status(404).send('Sorry, that did not work');
+})
 
-function renderIndex(request, response) {
+function renderHomePage(request, response) {
     let sql = 'SELECT * FROM books;';
     dbClient.query(sql)
         .then(databaseSearchResults => {
@@ -27,51 +35,39 @@ function renderIndex(request, response) {
         }).catch(error => errorHandler(error, request, response))
 }
 
-app.get('/hello', (request, response) => {
-    response.render('pages/index.ejs');
-})
-
-app.get('/detail', (request, response) => {
-    response.render('pages/books/detail.ejs');
-})
-
-app.get('/searches/new', (request, response) => {
-    response.render('pages/searches/new.ejs');
-})
+// app.get('/hello', (request, response) => {
+//     response.render('pages/index.ejs');
+// })
 
 app.get('/searches/show', (request, response) => {
     response.render('pages/searches/show.ejs');
 })
 
-app.post('/searches', (request, response) => {
+function getBooksFromAPI(request, response) {
     let query = request.body.search[0]
     let titleorAuthor = request.body.search[1]
-    // console.log(request.body);
-
     let url = `https://www.googleapis.com/books/v1/volumes?q=+in${titleorAuthor}:${query}`;
 
     superagent.get(url)
         .then(results => {
             let bookArray = results.body.items;
-            // console.log(results.body.items[0].volumeInfo.bookshelf);
-           
             let totalBookArray = bookArray.map(book => {
                 return new Book(book.volumeInfo)
             });
-            // console.log(totalBookArray)
             response.render('pages/searches/show.ejs', { searchResults: totalBookArray })
         }).catch(error => errorHandler(error, request, response))
-})
+}
+
+function searchForm(request, response) {
+    response.render('pages/searches/new.ejs');
+}
 
 function addToDatabase(request, response) {
-    // console.log('first console log', request.body);
     let {title, authors, image_url, description, isbn} = request.body
     let sqlAdd = 'INSERT INTO books (title, authors, image_url, description, isbn) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
     let safeValues = [title, authors, image_url, description, isbn]
-    // console.log("this is the second console log", safeValues, sqlAdd);
     dbClient.query(sqlAdd, safeValues)
         .then(store => {
-            // console.log(store);
             let id = store.rows[0].id;
             console.log(id);
             response.status(200).redirect(`/books/${id}`) 
@@ -89,6 +85,18 @@ function bookRequest(request, response) {
         }).catch(error => errorHandler(error, request, response))
 }
 
+function updateBooks(request, response) {
+    let {title, authors, description, image_url, isbn, bookshelf} = request.body;
+    let sql = 'UPDATE tasks SET authors=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;';
+    let booksId = request.params.books_id;
+    let safeValues = [title, authors, description, image_url, isbn, bookshelf, booksId];
+
+    dbClient.query(sql, safeValues)
+        .then(sqlResults => {
+            response.status(200).redirect(`/books/${id}`)
+        })
+}
+
 function Book(obj) {
     this.title = obj.title || 'Title not available'
     this.authors = obj.authors || 'Author not available'
@@ -101,10 +109,6 @@ function Book(obj) {
 function errorHandler(error, request, response) {
     response.status(500).send({ status: 500, responseText: 'That did not go as expected' });
 }
-
-app.get('*', (request, response) => {
-    response.status(404).send('Sorry, that did not work');
-})
 
 dbClient.connect()
     .then(() => {

@@ -1,0 +1,6 @@
+<form action="/update/<%= ${books.id}?_method=PUT %>" method="POST">
+    <input type="text" name="title" value="<%- books.title %>">
+    <input type="text" name="description" value="<%- books.description %>" placeholder="task">
+    <input type="text" name="completion" value="<%- books.completion %>" placeholder="complete">
+    
+</form>
