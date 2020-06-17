@@ -4,14 +4,14 @@ h4 {
     background-color:  rgb(213, 210, 210);
     padding: 20px;
   }
-  form {
+  [action="/searches"] {
     background-color: rgb(213, 210, 210);
     padding: 10px;
     flex-flow: column nowrap;
     display: flex;
     justify-content: center;
   }
-  form section {
+  [action="/searches"] section {
     text-align: left;
     padding-left: 35%;
   }
