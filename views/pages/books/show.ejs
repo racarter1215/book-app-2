@@ -7,6 +7,11 @@
 </head>
 <body>
     <%- include ('detail.ejs') %>
-    <a href="../index.ejs">Go back to Main Page</a>
+    <form action="/detail" method="GET">
+        <button class="submitButton" type="submit" >Go to Details Page</button>
+    </form>
+    <form action="/" method="GET">
+        <button class="submitButton" type="submit" >Go to Main Page</button>
+    </form>
 </body>
 </html>

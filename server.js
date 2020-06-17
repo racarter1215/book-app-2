@@ -31,6 +31,10 @@ app.get('/hello', (request, response) => {
     response.render('pages/index.ejs');
 })
 
+app.get('/detail', (request, response) => {
+    response.render('pages/books/detail.ejs');
+})
+
 app.get('/searches/new', (request, response) => {
     response.render('pages/searches/new.ejs');
 })
@@ -81,7 +85,7 @@ function bookRequest(request, response) {
 
     dbClient.query(sql, safeValues)
         .then(display => {
-            response.status(200).render('./pages/books/detail.ejs', {homeArray: display.rows});
+            response.status(200).render('./pages/books/show.ejs', {homeArray: display.rows});
         }).catch(error => errorHandler(error, request, response))
 }
 
