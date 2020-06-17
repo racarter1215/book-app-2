@@ -5,7 +5,6 @@ require('ejs');
 require('dotenv').config();
 const superagent = require('superagent');
 const pg = require('pg');
-const { response } = require('express');
 const dbClient = new pg.Client(process.env.DATABASE_URL);
 const app = express();
 
@@ -17,6 +16,8 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', renderIndex);
+app.get('/books/:id', bookRequest);
+app.post('/books', addToDatabase);
 
 function renderIndex(request, response) {
     let sql = 'SELECT * FROM books;';
@@ -53,21 +54,35 @@ app.post('/searches', (request, response) => {
             let totalBookArray = bookArray.map(book => {
                 return new Book(book.volumeInfo)
             });
+            // console.log(totalBookArray)
             response.render('pages/searches/show.ejs', { searchResults: totalBookArray })
         }).catch(error => errorHandler(error, request, response))
 })
 
-function addToDatabase() {
-    let {title, authors, image_url, description, isbn, bookshelf} = results.body
-    let sqlAdd = `INSERT INTO books (title, authors, image_url, description, isbn, bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID;`;
-    let safeValues = [book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.image_url, book.volumeInfo.description, book.volumeInfo.isbn, book.volumeInfo.bookshelf]
+function addToDatabase(request, response) {
+    // console.log('first console log', request.body);
+    let {title, authors, image_url, description, isbn} = request.body
+    let sqlAdd = 'INSERT INTO books (title, authors, image_url, description, isbn) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
+    let safeValues = [title, authors, image_url, description, isbn]
+    // console.log("this is the second console log", safeValues, sqlAdd);
     dbClient.query(sqlAdd, safeValues)
         .then(store => {
+            // console.log(store);
             let id = store.rows[0].id;
-            response.redirect(`/${id}`)
-                
-                
-            })
+            console.log(id);
+            response.status(200).redirect(`/books/${id}`) 
+        }).catch(error => console.log(error))
+}
+
+function bookRequest(request, response) {
+    let id = request.params.id;
+    let sql = 'SELECT * FROM books WHERE id=$1;';
+    let safeValues = [id];
+
+    dbClient.query(sql, safeValues)
+        .then(display => {
+            response.status(200).render('./pages/books/detail.ejs', {homeArray: display.rows});
+        }).catch(error => errorHandler(error, request, response))
 }
 
 function Book(obj) {
