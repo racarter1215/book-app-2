@@ -5,7 +5,15 @@
         <input type="text" name="image_url" value="<%- book.image_url %>">
         <input type="text" name="description" value="<%- book.description %>">
         <input type="text" name="isbn" value="<%- book.isbn %>">
-        <input type="text" name="bookshelf" value="<%- book.bookshelf %>" placeholder="bookshelf" >
+        <select id="genre" name="bookshelf" value="<%- book.bookshelf %>">
+            <option value="">Please Select a Bookshelf (genre)</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Romance">Romance</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Biography">Biography</option>
+            <option value="Other">Other</option>
+        </select>
         <button class="submitButton" type="submit">Make Changes</button>
     </form>
 <% }) %>
