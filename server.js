@@ -28,16 +28,12 @@ app.get('*', (request, response) => {
 })
 
 function renderHomePage(request, response) {
-    let sql = 'SELECT * FROM books;';
+    let sql = 'SELECT DISTINCT title, authors, image_url, description, isbn, bookshelf FROM books;';
     dbClient.query(sql)
         .then(databaseSearchResults => {
             response.render('pages/index.ejs', { homeArray: databaseSearchResults.rows })
         }).catch(error => errorHandler(error, request, response))
 }
-
-// app.get('/hello', (request, response) => {
-//     response.render('pages/index.ejs');
-// })
 
 app.get('/searches/show', (request, response) => {
     response.render('pages/searches/show.ejs');
@@ -87,14 +83,15 @@ function bookRequest(request, response) {
 
 function updateBooks(request, response) {
     let {title, authors, description, image_url, isbn, bookshelf} = request.body;
-    let sql = 'UPDATE tasks SET authors=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;';
+    let sql = 'UPDATE books SET authors=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;';
     let booksId = request.params.books_id;
-    let safeValues = [title, authors, description, image_url, isbn, bookshelf, booksId];
-
+    let safeValues = [authors, title, isbn, image_url, description, bookshelf, booksId];
+    console.log(request.body);
     dbClient.query(sql, safeValues)
         .then(sqlResults => {
-            response.status(200).redirect(`/books/${id}`)
-        })
+            console.log(sqlResults.rows)
+            response.status(200).redirect(`/books/${booksId}`)
+        }).catch(error => errorHandler(error, request, response))
 }
 
 function Book(obj) {
@@ -103,7 +100,7 @@ function Book(obj) {
     this.image_url = obj.imageLinks.thumbnail ? obj.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
     this.description = obj.description || 'Description not available'
     this.isbn = obj.industryIdentifiers[0].identifier;
-    // this.bookshelf = obj.
+    this.bookshelf = ""
 }
 
 function errorHandler(error, request, response) {
