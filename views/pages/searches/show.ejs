@@ -18,9 +18,10 @@
                 <input type=hidden name="description" value="<%=book.description%>" />
                 <p><%= book.description %></p>
                 <input type=hidden name="isbn" value="<%=book.isbn%>" />
-                <p><% book.isbn %></p>
-                <input type=hidden name="bookshelf" value="<%=book.bookshelf%>" />
-                <p><% book.bookshelf %></p>
+                <p><%= book.isbn %></p>
+                <label for="bookshelf">What bookshelf is this for?</label>
+                <input type="text" name="bookshelf" required/>
+                <p><%= book.bookshelf %></p>
                 <button class="submitButton" type="submit">Add to Collection</button>
             </form>
         <% }) %>

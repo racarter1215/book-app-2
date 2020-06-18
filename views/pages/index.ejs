@@ -3,6 +3,38 @@
     <%- include ('../layout/head.ejs') %>
 <body>
     <div class="book-section">
+        
+        <% let testArr = homeArray.reduce((a,v,i,ar) => { %>
+          <%  if((ar[0].bookshelf !== v.bookshelf)) { %>
+            <%     a = true  %>
+            <%  } %>
+            <%    return a; %>
+            <% }, false) %>
+        <% if(testArr) {  %> 
+
+        <form action="/bookshelf?_method=PUT" method="POST">
+         <select id="genre" name="bookshelf">
+            <option value="">Please Select a Bookshelf (genre)</option>
+        <div class="book-section">
+
+        
+            <% let array = [] %>
+            <% homeArray.forEach(book => { %>
+            <% if(!array.includes(book.bookshelf)){ %>
+               <option value="<%=book.bookshelf%>">
+                <%=book.bookshelf%></option>
+                <% array.push(book.bookshelf) %>
+                <% } %>
+            <% },[]) %> 
+            </select>
+            <button>Submit</button>
+        </form>
+        <a href = "/searches/new">Find new books</a>
+     <%   } else { %>
+            <h2><%=homeArray[0].bookshelf%> Bookshelf </h2>
+            <a href="/">Back to main</a>
+     <% } %>
+
         <section class="single-book">
             <% homeArray.forEach( book => { %>
                 <form action="/books" method="POST">
@@ -21,6 +53,9 @@
                     <input type=hidden name="bookshelf" value="<%=book.bookshelf%>" />
                     <p><%= book.bookshelf %></p>
                     <button class="submitButton" type="submit">Show Details</button>
+                </form>
+                <form action="/delete/<%= book.id %>?_method=delete" method="POST">
+                <button>Delete from Library</button>
                 </form>
             <% }) %>
         </section>

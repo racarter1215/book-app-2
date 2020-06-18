@@ -3,8 +3,8 @@
     <% homeArray.forEach( book => { %>
         <form action="/books" method="POST">
             <input type=hidden name="image_url" value="<%=book.image_url%>" />
-            <img src=<%= book.image_url %> 
-            alt= <%= book.title %> 
+            <img src="<%= book.image_url %>"
+            alt="<%= book.title %>"
             />
             <input type=hidden name="title" value="<%=book.title%>" />
             <h2><%= book.title %></h2>
